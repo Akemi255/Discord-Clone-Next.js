@@ -5,8 +5,11 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { currentProfile } from '@/lib/current-profile';
 import { db } from '@/lib/db';
-import { UserButton } from '@clerk/nextjs';
+import { UserButton, redirectToSignIn } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
+
+import Image from 'next/image';
+import LogoutButton from './logout-button';
 export const NavigationSidebar = async () => {
   const profile = await currentProfile();
 
@@ -23,6 +26,7 @@ export const NavigationSidebar = async () => {
       },
     },
   });
+
 
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#e3e5e8] py-3">
@@ -41,14 +45,7 @@ export const NavigationSidebar = async () => {
       </ScrollArea>
       <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
         <ModeToggle />
-        <UserButton
-          afterSignOutUrl="/"
-          appearance={{
-            elements: {
-              avatarBox: 'h-[48px] w-[48px]',
-            },
-          }}
-        />
+        <LogoutButton profile={profile} />
       </div>
     </div>
   );
